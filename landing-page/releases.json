@@ -24,7 +24,23 @@
         "file": "VantaLock-1.1.77.AppImage"
       }
     ],
-    "checksums": [],
+    "checksums": [
+      {
+        "platform": "Windows (.exe)",
+        "file": "VantaLock-Setup-1.1.77.exe",
+        "sha256": "27d76ce5591659cd43bda03e1033369994dcaf9d21cd9398726f5cc9411a3dcb"
+      },
+      {
+        "platform": "macOS (.dmg)",
+        "file": "VantaLock-1.1.77-arm64.dmg",
+        "sha256": "8020363afe25fd945a93b01521e253faa7dd8a958cdef199309ba5b504b91634"
+      },
+      {
+        "platform": "Linux (.AppImage)",
+        "file": "VantaLock-1.1.77.AppImage",
+        "sha256": "b87929eb60ed30cc0b4b6250aa3c2ecbc34840a9d8a4dda45eb205dcca788c91"
+      }
+    ],
     "knownIssues": []
   },
   {
@@ -46,7 +62,23 @@
         "text": "Displayed the installed application version in About."
       }
     ],
-    "checksums": [],
+    "checksums": [
+      {
+        "platform": "Windows (.exe)",
+        "file": "VantaLock-Setup-1.1.76.exe",
+        "sha256": "3522341788876ab658cb46b535caef8c05ceeb27203a3f533e3ecea63a7382dd"
+      },
+      {
+        "platform": "macOS (.dmg)",
+        "file": "VantaLock-1.1.76-arm64.dmg",
+        "sha256": "7f7f16a608d98d674f231fabade78026c3080b21befbd28020caeeea81a39e31"
+      },
+      {
+        "platform": "Linux (.AppImage)",
+        "file": "VantaLock-1.1.76.AppImage",
+        "sha256": "9c52b361a2ada05a6a3d791f6113f462d7d0516984170a644cd25bb380664ed5"
+      }
+    ],
     "knownIssues": []
   },
   {
@@ -60,7 +92,23 @@
         "text": "Replaced unsupported browser password prompts with an in-app credential dialog for backup import and export."
       }
     ],
-    "checksums": [],
+    "checksums": [
+      {
+        "platform": "Windows (.exe)",
+        "file": "VantaLock-Setup-1.1.75.exe",
+        "sha256": "dafd0e1af386293a834c58e1abccc5e3e8f84139365549ede6c62b1afb17d4d5"
+      },
+      {
+        "platform": "macOS (.dmg)",
+        "file": "VantaLock-1.1.75-arm64.dmg",
+        "sha256": "2cb4f706af6a4286ada75ad809477718e91bd5640a25ed8dcda55986ce779f2b"
+      },
+      {
+        "platform": "Linux (.AppImage)",
+        "file": "VantaLock-1.1.75.AppImage",
+        "sha256": "20c5e1ab23076266b9fe6f35d32494c8ce031f9a5f8a39481cb1f33fc69420b8"
+      }
+    ],
     "knownIssues": []
   },
   {
@@ -74,7 +122,23 @@
         "text": "Added file dialogs to choose encrypted backups for import and select where to save exports."
       }
     ],
-    "checksums": [],
+    "checksums": [
+      {
+        "platform": "Windows (.exe)",
+        "file": "VantaLock-Setup-1.1.74.exe",
+        "sha256": "4b040a3793e417201f5dfb865f09b19d16d9b8892aa7216ab4e4356b932eaee9"
+      },
+      {
+        "platform": "macOS (.dmg)",
+        "file": "VantaLock-1.1.74-arm64.dmg",
+        "sha256": "77c3faf2214b6eeec9afa70945edcbbf59c84120adfa1c153d299d3539b9a93f"
+      },
+      {
+        "platform": "Linux (.AppImage)",
+        "file": "VantaLock-1.1.74.AppImage",
+        "sha256": "8cb27b98be34eebcc653bd61fabe68ff04c4b283b09801679ed29fc57afd1d80"
+      }
+    ],
     "knownIssues": []
   },
   {
@@ -88,7 +152,23 @@
         "text": "Made the import choices more compact while keeping both import options available."
       }
     ],
-    "checksums": [],
+    "checksums": [
+      {
+        "platform": "Windows (.exe)",
+        "file": "Windows release installer",
+        "sha256": "5584d3792963c98f2566691bfeebc9f99d09fa7c87fca46faf24dd2edf3a92f1"
+      },
+      {
+        "platform": "macOS (.dmg)",
+        "file": "macOS disk image",
+        "sha256": "299b020c921fd5a34f198f0a2251210615f42695b31bddaa934b8639fd41f65b"
+      },
+      {
+        "platform": "Linux (.AppImage)",
+        "file": "Linux AppImage",
+        "sha256": "27d8c8201055b0397a6240a8a5d426264bdf695a475234f415745877c8b16b46"
+      }
+    ],
     "knownIssues": []
   },
   {
@@ -102,7 +182,23 @@
         "text": "Kept import choice titles on one line and refined the card colors and controls."
       }
     ],
-    "checksums": [],
+    "checksums": [
+      {
+        "platform": "Windows (.exe)",
+        "file": "Windows release installer",
+        "sha256": "20cdef24d6da095a78515d238b6cc2a8c0d18ab05aa27653748aee0f2d5fb170"
+      },
+      {
+        "platform": "macOS (.dmg)",
+        "file": "macOS disk image",
+        "sha256": "01dd9170038bafbeae46a04ab3231d53ad6b2a4d2bcebf705790cd47ba82fd2a"
+      },
+      {
+        "platform": "Linux (.AppImage)",
+        "file": "Linux AppImage",
+        "sha256": "6e2480a7506a44b28b6cd53f35fea49d6283aa1e5c376998ce331265da1b4504"
+      }
+    ],
     "knownIssues": []
   },
   {
@@ -120,7 +216,23 @@
         "text": "Adjusted import card sizing to match the Export page."
       }
     ],
-    "checksums": [],
+    "checksums": [
+      {
+        "platform": "Windows (.exe)",
+        "file": "Windows release installer",
+        "sha256": "0962cfdef309f5efdc692176f70d5cf968133b94f43b49cb3d8193edfa3ac1ec"
+      },
+      {
+        "platform": "macOS (.dmg)",
+        "file": "macOS disk image",
+        "sha256": "bec5bdf7063ab118d53b0b09bfd5be901aacc7cc9782e5adc2955b94bb634b2e"
+      },
+      {
+        "platform": "Linux (.AppImage)",
+        "file": "Linux AppImage",
+        "sha256": "418ab52d14e2f0d730a2f80490c52435a047b7317ef23b973cf5e513d027ad4c"
+      }
+    ],
     "knownIssues": []
   },
   {
@@ -134,7 +246,23 @@
         "text": "Refined the Import page heading and choice cards."
       }
     ],
-    "checksums": [],
+    "checksums": [
+      {
+        "platform": "Windows (.exe)",
+        "file": "Windows release installer",
+        "sha256": "cac1aa0448e38d5a429322081cde3c1f3856d9a530a62288edb46737a41007d1"
+      },
+      {
+        "platform": "macOS (.dmg)",
+        "file": "macOS disk image",
+        "sha256": "868a8c68bd2023ab3b1beb3202d694f74cae8fce81b1fc17f5615bd8ab76865d"
+      },
+      {
+        "platform": "Linux (.AppImage)",
+        "file": "Linux AppImage",
+        "sha256": "306f95ac2bc150c83acdddb9537ab0c23ef5888d4b7159c40c8e0e13f6bf3912"
+      }
+    ],
     "knownIssues": []
   },
   {
@@ -152,7 +280,23 @@
         "text": "Improved handling of mixed-format imports and unreadable import files."
       }
     ],
-    "checksums": [],
+    "checksums": [
+      {
+        "platform": "Windows (.exe)",
+        "file": "Windows release installer",
+        "sha256": "8f5f01d13a6b79a399b508fa62a7298ca1b1bcbe191ff225df4bd17e35cb9c37"
+      },
+      {
+        "platform": "macOS (.dmg)",
+        "file": "macOS disk image",
+        "sha256": "f2c04b8439676553512be2fbba38c6cb6e528b8784377be7ddd6a58a7554450b"
+      },
+      {
+        "platform": "Linux (.AppImage)",
+        "file": "Linux AppImage",
+        "sha256": "a06835b37046b5d8c58f5433840ee2d777ad184aae8d8783a3d2336df4dd7735"
+      }
+    ],
     "knownIssues": []
   },
   {
@@ -166,7 +310,23 @@
         "text": "Fixed entry icons that were not visible in the vault."
       }
     ],
-    "checksums": [],
+    "checksums": [
+      {
+        "platform": "Windows (.exe)",
+        "file": "Windows release installer",
+        "sha256": "05cc348eb10bc639d54485674a64264780cab0dd98c3873b8ba03031b3dee71d"
+      },
+      {
+        "platform": "macOS (.dmg)",
+        "file": "macOS disk image",
+        "sha256": "bbd4ed4b3c41befbc910dc000d6243e3aa96d8b3c8e9ce8bd5d00017a232c721"
+      },
+      {
+        "platform": "Linux (.AppImage)",
+        "file": "Linux AppImage",
+        "sha256": "bffc1f122c7ab79efa44c90b84da57740278fcc54cc26252ba4385bfbab369e0"
+      }
+    ],
     "knownIssues": []
   },
   {
@@ -184,7 +344,23 @@
         "text": "Fixed content clipping in the vault list view."
       }
     ],
-    "checksums": [],
+    "checksums": [
+      {
+        "platform": "Windows (.exe)",
+        "file": "Windows release installer",
+        "sha256": "7234178b6d7d239d4a7b29170c7a1aefe8ded25bd43a07e4f33e190d5237b8a0"
+      },
+      {
+        "platform": "macOS (.dmg)",
+        "file": "macOS disk image",
+        "sha256": "a221adbccd280d001e7c6de46b907c0a676fd50692e55f1f1695c219028a527b"
+      },
+      {
+        "platform": "Linux (.AppImage)",
+        "file": "Linux AppImage",
+        "sha256": "b1befc255bab492394b9d7328d7e6fd70651cb8a16b977a9920dccd823b7d090"
+      }
+    ],
     "knownIssues": []
   },
   {
@@ -198,7 +374,23 @@
         "text": "Improved the top navigation layout and lock button placement."
       }
     ],
-    "checksums": [],
+    "checksums": [
+      {
+        "platform": "Windows (.exe)",
+        "file": "Windows release installer",
+        "sha256": "15515d10c1b6ed23e889e6518bd3c1dbb39dcc54fc73698af488cfe8d618082c"
+      },
+      {
+        "platform": "macOS (.dmg)",
+        "file": "macOS disk image",
+        "sha256": "ace6302494567eebb58fe6edbe1a4a5ca5d64476a6763fcc8c1daf405b6a4096"
+      },
+      {
+        "platform": "Linux (.AppImage)",
+        "file": "Linux AppImage",
+        "sha256": "34db2915d806ad06d01746b116fa79598bad7534b249b35aae65a0fbb6aa34c4"
+      }
+    ],
     "knownIssues": []
   },
   {
@@ -216,7 +408,23 @@
         "text": "Added search across vault entries."
       }
     ],
-    "checksums": [],
+    "checksums": [
+      {
+        "platform": "Windows (.exe)",
+        "file": "Windows release installer",
+        "sha256": "c4a4a3df334e63b853a5d8cb466a6445081d1797469571e6aac9af9d81b15951"
+      },
+      {
+        "platform": "macOS (.dmg)",
+        "file": "macOS disk image",
+        "sha256": "4eb79488c75fb10332be6930488de4b4415c4a65c5a5f237f4eff51fb662984d"
+      },
+      {
+        "platform": "Linux (.AppImage)",
+        "file": "Linux AppImage",
+        "sha256": "130c60011168c70b66cc1fd9839254cc00cbe8bde1eb384f6300bd1cbef8a7ed"
+      }
+    ],
     "knownIssues": []
   },
   {
@@ -230,7 +438,23 @@
         "text": "Fixed a startup issue that could leave the splash screen on screen instead of opening the app."
       }
     ],
-    "checksums": [],
+    "checksums": [
+      {
+        "platform": "Windows (.exe)",
+        "file": "Windows release installer",
+        "sha256": "3359023f566f05bde21c0baf995cd6c8db90f6b587fe785ec8196cffc1905e36"
+      },
+      {
+        "platform": "macOS (.dmg)",
+        "file": "macOS disk image",
+        "sha256": "e1d417bd2a8485c38065a5138c5d85438eba1b2cb18bdcc0ee5c6525a6f932ae"
+      },
+      {
+        "platform": "Linux (.AppImage)",
+        "file": "Linux AppImage",
+        "sha256": "061f4b3f61b36c151f24f2ee106cd9d79bfeb801ede6fc84ade0375ce3d6c2c7"
+      }
+    ],
     "knownIssues": []
   },
   {
@@ -256,7 +480,23 @@
         "text": "Improved recovery from an expired vault lockout."
       }
     ],
-    "checksums": [],
+    "checksums": [
+      {
+        "platform": "Windows (.exe)",
+        "file": "Windows release installer",
+        "sha256": "7dc63d854e719565008457e7c3f63407035da70f587f9ee9cd574b19e9c38a5b"
+      },
+      {
+        "platform": "macOS (.dmg)",
+        "file": "macOS disk image",
+        "sha256": "bd01ee267840b942095317112ed042c08d3279341e05da83b18c11ab4cabcd8a"
+      },
+      {
+        "platform": "Linux (.AppImage)",
+        "file": "Linux AppImage",
+        "sha256": "9c2482d7a65c9439e6f9c2cd3ad1c00dca460484357383f96ca76525055ed2aa"
+      }
+    ],
     "knownIssues": []
   },
   {
@@ -278,7 +518,23 @@
         "text": "Improved lock controls and handling of attachment file names."
       }
     ],
-    "checksums": [],
+    "checksums": [
+      {
+        "platform": "Windows (.exe)",
+        "file": "Windows release installer",
+        "sha256": "90145fa116938d7e4f57ef8acf406d611ea9052df886051d8ed1f4cd9e3912c2"
+      },
+      {
+        "platform": "macOS (.dmg)",
+        "file": "macOS disk image",
+        "sha256": "9c785d93d3db0aaa59cab06ed8665cbcc924127a918414b8a403f0016004a032"
+      },
+      {
+        "platform": "Linux (.AppImage)",
+        "file": "Linux AppImage",
+        "sha256": "61d6bc4d3dba079542cc8ce7f24ccc4b74944c14e182a9d5095aa87f8ba90ea6"
+      }
+    ],
     "knownIssues": []
   },
   {
@@ -292,7 +548,23 @@
         "text": "Fixed how biometric alerts close from Security Settings."
       }
     ],
-    "checksums": [],
+    "checksums": [
+      {
+        "platform": "Windows (.exe)",
+        "file": "Windows release installer",
+        "sha256": "2babefd20b2feb990198a847a713adeab6e20612f3fffaa288dbe431358e8ea9"
+      },
+      {
+        "platform": "macOS (.dmg)",
+        "file": "macOS disk image",
+        "sha256": "9a9274a39e3b3429227ffe11d398ccca1b557fb8e8043b01502798b16298903d"
+      },
+      {
+        "platform": "Linux (.AppImage)",
+        "file": "Linux AppImage",
+        "sha256": "adc8fc509b2554e01f4e46e37ff18e933c903cc9d6a32b955472beb00c88c485"
+      }
+    ],
     "knownIssues": []
   },
   {
@@ -310,7 +582,23 @@
         "text": "Refined recovery phrase setup and onboarding screens."
       }
     ],
-    "checksums": [],
+    "checksums": [
+      {
+        "platform": "Windows (.exe)",
+        "file": "Windows release installer",
+        "sha256": "13dbeae4ba0376a2f8da864d73a84248fae2e37830c8e0eb6131609e8c2706e4"
+      },
+      {
+        "platform": "macOS (.dmg)",
+        "file": "macOS disk image",
+        "sha256": "dd1d37b7f6fd1cc0591953795ece7a090ad7a73e1a40ba357f0818ee1178ca4a"
+      },
+      {
+        "platform": "Linux (.AppImage)",
+        "file": "Linux AppImage",
+        "sha256": "1ec8ac0c0f351522d96fd5639161ce78955742c9370dcbf78d3756a251c344da"
+      }
+    ],
     "knownIssues": []
   },
   {
@@ -328,7 +616,23 @@
         "text": "Tightened isolation for the app window."
       }
     ],
-    "checksums": [],
+    "checksums": [
+      {
+        "platform": "Windows (.exe)",
+        "file": "Windows release installer",
+        "sha256": "f1dbeed45d8103a88a2a4ae909b52da7ed5afa04aea99e443fa3acfe27e67b17"
+      },
+      {
+        "platform": "macOS (.dmg)",
+        "file": "macOS disk image",
+        "sha256": "96bb9b79d5b7e3d2cb349057d28a93ed97c4599e8c6b25d2ce6aa6fecdb8412d"
+      },
+      {
+        "platform": "Linux (.AppImage)",
+        "file": "Linux AppImage",
+        "sha256": "9e2f87e07d37496466cd6b28ea6f77f5145a958d8e3d5132c16f59e12f200dbb"
+      }
+    ],
     "knownIssues": []
   },
   {
@@ -342,7 +646,23 @@
         "text": "Fixed an issue that could prevent the app from completing startup."
       }
     ],
-    "checksums": [],
+    "checksums": [
+      {
+        "platform": "Windows (.exe)",
+        "file": "Windows release installer",
+        "sha256": "b94d1d349657da5b2ec4e055ff50f6d85bbacf94d25768d486b69e64060df2f8"
+      },
+      {
+        "platform": "macOS (.dmg)",
+        "file": "macOS disk image",
+        "sha256": "23879943923b618905b0e38609c085c17a6168c5633eb3d8781705b26b164614"
+      },
+      {
+        "platform": "Linux (.AppImage)",
+        "file": "Linux AppImage",
+        "sha256": "efb270101939335647a40f182b12e6dcdf323f6110f13247a3b66fc0deba0f24"
+      }
+    ],
     "knownIssues": []
   },
   {
@@ -356,7 +676,23 @@
         "text": "Fixed a startup animation issue that could leave the app waiting instead of opening."
       }
     ],
-    "checksums": [],
+    "checksums": [
+      {
+        "platform": "Windows (.exe)",
+        "file": "Windows release installer",
+        "sha256": "baefebe280c10fbebfa1b134a83c4269d945213f98b9ab404445a233da42ddce"
+      },
+      {
+        "platform": "macOS (.dmg)",
+        "file": "macOS disk image",
+        "sha256": "9e6dcb71a3d188779c673c3eb6b366cda336b7df5812c812c8342a1e6a98d874"
+      },
+      {
+        "platform": "Linux (.AppImage)",
+        "file": "Linux AppImage",
+        "sha256": "8cc468c6067da084da5f36ebe94e481cffecca330afd37c6c49c21933a799fc5"
+      }
+    ],
     "knownIssues": []
   },
   {
@@ -378,7 +714,23 @@
         "text": "Improved entry rendering after opening a vault."
       }
     ],
-    "checksums": [],
+    "checksums": [
+      {
+        "platform": "Windows (.exe)",
+        "file": "Windows release installer",
+        "sha256": "6236ccc1f799e82c7ff57ac85d006790aa7cd900d3005aa5293bb68a59345b04"
+      },
+      {
+        "platform": "macOS (.dmg)",
+        "file": "macOS disk image",
+        "sha256": "b956797a5caf6d18ae67d17659804b3ce5ab7b714c413be982405e9fcd84946a"
+      },
+      {
+        "platform": "Linux (.AppImage)",
+        "file": "Linux AppImage",
+        "sha256": "d37d9bd091bfff130ac3ab0907bf78514ea1cd49464729e8898abd7a23e9adcf"
+      }
+    ],
     "knownIssues": []
   },
   {
@@ -400,7 +752,23 @@
         "text": "Displayed vault entries immediately after opening the vault."
       }
     ],
-    "checksums": [],
+    "checksums": [
+      {
+        "platform": "Windows (.exe)",
+        "file": "Windows release installer",
+        "sha256": "2f645ac7f3fd6fe89964ccfc1f78bb42cfd77744308c8ad40dc169db3a49e270"
+      },
+      {
+        "platform": "macOS (.dmg)",
+        "file": "macOS disk image",
+        "sha256": "cd82a750f1516f657cdc85174bb06f17f5cabd71d67c0745c781d7ed1f9414f0"
+      },
+      {
+        "platform": "Linux (.AppImage)",
+        "file": "Linux AppImage",
+        "sha256": "ed1ddde2ec3d5d16dfc3ca13ec31412b85c6d772fa3c54e50415f3d8e546db9c"
+      }
+    ],
     "knownIssues": []
   },
   {
@@ -419,6 +787,23 @@
       {
         "platform": "Linux",
         "file": "VantaLock-1.1.49.AppImage"
+      }
+    ],
+    "checksums": [
+      {
+        "platform": "Windows (.exe)",
+        "file": "VantaLock-Setup-1.1.49.exe",
+        "sha256": "ea29f95a5d1e4f8dbecd86ecccd0445804c30388640dc498766dcdafd56a5302"
+      },
+      {
+        "platform": "macOS (.dmg)",
+        "file": "VantaLock-1.1.49-arm64.dmg",
+        "sha256": "944223c28c14e056373d64b2e9e6ccc90e6cac4ae639655c0e6fd1b26f1ead06"
+      },
+      {
+        "platform": "Linux (.AppImage)",
+        "file": "VantaLock-1.1.49.AppImage",
+        "sha256": "3458a4a628437420c2f4ec5865574676210e8f996eac94e70af10bf6d12fb0f9"
       }
     ]
   },
