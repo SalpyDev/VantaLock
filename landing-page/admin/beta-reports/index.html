@@ -131,21 +131,6 @@
       font-weight: normal;
     }
 
-    /* Animated Dots for Verifying password... */
-    .dots-anim::after {
-      display: inline-block;
-      animation: ellipsis 1.5s infinite;
-      content: ".";
-      width: 1em;
-      text-align: left;
-    }
-
-    @keyframes ellipsis {
-      0% { content: "."; }
-      33% { content: ".."; }
-      66% { content: "..."; }
-    }
-
     /* Create Link Box */
     .create-link-box {
       background: var(--card-bg);
@@ -336,7 +321,7 @@
       }
 
       // Show 4-second animated status: Verifying password...
-      errEl.innerHTML = 'Verifying password<span class="dots-anim"></span>';
+      errEl.textContent = 'Verifying password...';
       if (loginBtn) loginBtn.disabled = true;
 
       // 4-second delay with animated ellipsis
