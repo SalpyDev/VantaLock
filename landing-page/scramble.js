@@ -18,12 +18,30 @@
     '.tester-handle',
     '.crypto-label'
   ].join(',');
+  const cardSelector = [
+    '.vault-card',
+    '.content-box',
+    '.step-card',
+    '.faq-item',
+    '.release-card',
+    '.checksum-box',
+    '.known-issues-box',
+    '.report-card',
+    '.create-link-box',
+    '.read-only-box',
+    '.canonical-box'
+  ].join(',');
   const glyphs = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789#$%*+=?/';
   const style = document.createElement('style');
   const registered = new WeakSet();
+  const registeredCards = new WeakSet();
+  const startedCards = new WeakSet();
+  const scheduledCards = new WeakSet();
   const headingReady = new WeakSet();
+  const cards = new Set();
   const headings = new Set();
   const activeScrambles = new Set();
+  const timeouts = new Set();
   let observer;
   let mutationObserver;
   let ready = false;
@@ -44,6 +62,16 @@
       white-space: nowrap;
       border: 0;
     }
+    .reveal-pending {
+      opacity: 0;
+      transform: translateY(14px);
+      pointer-events: none;
+    }
+    .reveal-in {
+      opacity: 1;
+      transform: translateY(0);
+      transition: opacity 600ms ease-out, transform 600ms ease-out;
+    }
   `;
 
   function failOpen() {
@@ -52,10 +80,10 @@
     if (mutationObserver) mutationObserver.disconnect();
     if (animationFrame) cancelAnimationFrame(animationFrame);
     animationFrame = 0;
+    timeouts.forEach(clearTimeout);
     activeScrambles.forEach(restoreScramble);
-    document.querySelectorAll('.scramble-pending').forEach(element => {
-      element.classList.remove('scramble-pending');
-    });
+    document.querySelectorAll('.scramble-pending, .reveal-pending, .reveal-in')
+      .forEach(element => element.classList.remove('scramble-pending', 'reveal-pending', 'reveal-in'));
   }
 
   function isInViewport(element) {
@@ -75,18 +103,100 @@
     observer.observe(element);
   }
 
-  function scan(root) {
+  function registerCard(element, initialScan) {
+    if (registeredCards.has(element) || element.closest('nav,footer,.hero,#hero,.hero-section')) return;
+    registeredCards.add(element);
+    cards.add(element);
+
+    if (initialScan && isInViewport(element)) {
+      startedCards.add(element);
+      return;
+    }
+
+    element.classList.add('reveal-pending');
+    observer.observe(element);
+  }
+
+  function scan(root, initialScan = false) {
     if (root.nodeType !== Node.ELEMENT_NODE && root !== document) return;
     const scope = root === document ? document : root;
+    if (root !== document && root.matches(cardSelector)) registerCard(root, initialScan);
+    scope.querySelectorAll(cardSelector).forEach(element => registerCard(element, initialScan));
     if (root !== document && root.matches(headingSelector)) registerHeading(root);
     scope.querySelectorAll(headingSelector).forEach(registerHeading);
   }
 
   function maybeStartHeading(element) {
     if (!ready || !headingReady.has(element) || !element.isConnected) return;
+    const card = element.closest(cardSelector);
+    if (card && registeredCards.has(card) && !startedCards.has(card)) return;
     observer.unobserve(element);
     element.classList.remove('scramble-pending');
     beginScramble(element);
+  }
+
+  function rowCards(element) {
+    let grid = element.parentElement;
+    while (grid && grid !== document.body) {
+      const display = getComputedStyle(grid).display;
+      if (display === 'grid' || display === 'inline-grid' || display === 'flex' || display === 'inline-flex') break;
+      grid = grid.parentElement;
+    }
+    if (!grid || grid === document.body) return [element];
+
+    const top = element.getBoundingClientRect().top;
+    const tolerance = Math.max(10, Math.min(24, element.getBoundingClientRect().height * 0.1));
+    const row = Array.from(cards).filter(card =>
+      card.isConnected &&
+      card !== element &&
+      grid.contains(card) &&
+      card.classList.contains('reveal-pending') &&
+      isInViewport(card) &&
+      Math.abs(card.getBoundingClientRect().top - top) <= tolerance
+    );
+    row.push(element);
+    return row.sort((left, right) => left.getBoundingClientRect().left - right.getBoundingClientRect().left);
+  }
+
+  function beginCardReveal(element) {
+    if (failed) return;
+    element.classList.add('reveal-in');
+    requestAnimationFrame(() => {
+      try {
+        if (failed) return;
+        element.classList.remove('reveal-pending');
+        startedCards.add(element);
+        requestAnimationFrame(() => {
+          try {
+            if (failed) return;
+            element.querySelectorAll(headingSelector).forEach(maybeStartHeading);
+            const cleanup = setTimeout(() => {
+              element.classList.remove('reveal-in');
+              timeouts.delete(cleanup);
+            }, 650);
+            timeouts.add(cleanup);
+          } catch {
+            failOpen();
+          }
+        });
+      } catch {
+        failOpen();
+      }
+    });
+  }
+
+  function scheduleCardRow(element) {
+    if (scheduledCards.has(element)) return;
+    rowCards(element).forEach((card, index) => {
+      if (scheduledCards.has(card)) return;
+      scheduledCards.add(card);
+      observer.unobserve(card);
+      const timer = setTimeout(() => {
+        timeouts.delete(timer);
+        beginCardReveal(card);
+      }, index * 80);
+      timeouts.add(timer);
+    });
   }
 
   function measureCharacters(textNode, text) {
@@ -226,7 +336,10 @@
 
   function onIntersection(entries) {
     entries.forEach(entry => {
-      if (entry.isIntersecting && entry.intersectionRatio >= 0.3) {
+      if (!entry.isIntersecting) return;
+      if (registeredCards.has(entry.target) && entry.intersectionRatio >= 0.15) {
+        scheduleCardRow(entry.target);
+      } else if (registered.has(entry.target) && entry.intersectionRatio >= 0.3) {
         headingReady.add(entry.target);
         maybeStartHeading(entry.target);
       }
@@ -247,8 +360,8 @@
         } catch {
           failOpen();
         }
-      }, { threshold: [0, 0.3] });
-      scan(document);
+      }, { threshold: [0, 0.15, 0.3] });
+      scan(document, true);
       mutationObserver = new MutationObserver(records => {
         try {
           records.forEach(record => record.addedNodes.forEach(node => {
