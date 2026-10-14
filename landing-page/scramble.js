@@ -38,6 +38,8 @@
   const startedCards = new WeakSet();
   const scheduledCards = new WeakSet();
   const headingReady = new WeakSet();
+  const safetyArmed = new WeakSet();
+  const played = new WeakSet();
   const cards = new Set();
   const headings = new Set();
   const activeScrambles = new Set();
@@ -74,7 +76,52 @@
     }
   `;
 
+  function later(fn, ms) {
+    const timer = setTimeout(() => {
+      timeouts.delete(timer);
+      try {
+        fn();
+      } catch {
+        failOpen();
+      }
+    }, ms);
+    timeouts.add(timer);
+    return timer;
+  }
+
+  // Hide headings and cards the instant this script runs, so real text is never
+  // readable before its scramble / fade-in. If this script is loaded in <head>
+  // without defer, that happens before the first paint. releaseBoot() lifts the
+  // hiding once the script has applied its own pending classes, and a 3-second
+  // watchdog guarantees nothing can stay hidden.
+  function bootHide() {
+    try {
+      if (typeof IntersectionObserver !== 'function') return;
+      if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) return;
+      const root = document.documentElement;
+      if (!document.getElementById('scramble-boot-styles')) {
+        const bootStyle = document.createElement('style');
+        bootStyle.id = 'scramble-boot-styles';
+        bootStyle.textContent =
+          `html.scramble-boot :is(${headingSelector}){visibility:hidden}` +
+          `html.scramble-boot :is(${cardSelector}){opacity:0}`;
+        (document.head || root).appendChild(bootStyle);
+      }
+      root.classList.add('scramble-boot');
+      setTimeout(releaseBoot, 3000);
+    } catch {
+      /* the page simply shows normally */
+    }
+  }
+
+  function releaseBoot() {
+    document.documentElement.classList.remove('scramble-boot');
+    const bootStyle = document.getElementById('scramble-boot-styles');
+    if (bootStyle) bootStyle.remove();
+  }
+
   function failOpen() {
+    releaseBoot();
     failed = true;
     if (observer) observer.disconnect();
     if (mutationObserver) mutationObserver.disconnect();
@@ -93,13 +140,34 @@
       rect.right > 0 && rect.left < window.innerWidth;
   }
 
+  // FIX 2: gradient text (background-clip: text) vanishes if its letters are
+  // wrapped in spans, so such headings are left alone and always show normally.
+  function hasClippedText(element) {
+    return [element, ...element.querySelectorAll('*')].some(node => {
+      const computed = getComputedStyle(node);
+      return computed.backgroundClip === 'text' || computed.webkitBackgroundClip === 'text';
+    });
+  }
+
   function registerHeading(element) {
-    if (registered.has(element) || element.closest('a,button,code,pre')) return;
+    if (registered.has(element) || element.closest('a,button,code,pre,li,.badge,.channel-badge,.pill-tag,.vault-card-badge')) return;
     registered.add(element);
+    if (hasClippedText(element)) return;
     headings.add(element);
 
-    if (isInViewport(element)) headingReady.add(element);
-    else element.classList.add('scramble-pending');
+    // FIX 4: headings already in view are hidden too, until the scramble
+    // starts, so they never flash real text and then flip to scrambled.
+    element.classList.add('scramble-pending');
+    if (isInViewport(element)) {
+      headingReady.add(element);
+      later(() => {
+        if (!played.has(element)) {
+          played.add(element);
+          element.classList.remove('scramble-pending');
+          if (observer) observer.unobserve(element);
+        }
+      }, 1000);
+    }
     observer.observe(element);
   }
 
@@ -127,9 +195,10 @@
   }
 
   function maybeStartHeading(element) {
-    if (!ready || !headingReady.has(element) || !element.isConnected) return;
+    if (!ready || !headingReady.has(element) || !element.isConnected || played.has(element)) return;
     const card = element.closest(cardSelector);
     if (card && registeredCards.has(card) && !startedCards.has(card)) return;
+    played.add(element);
     observer.unobserve(element);
     element.classList.remove('scramble-pending');
     beginScramble(element);
@@ -170,11 +239,7 @@
           try {
             if (failed) return;
             element.querySelectorAll(headingSelector).forEach(maybeStartHeading);
-            const cleanup = setTimeout(() => {
-              element.classList.remove('reveal-in');
-              timeouts.delete(cleanup);
-            }, 650);
-            timeouts.add(cleanup);
+            later(() => element.classList.remove('reveal-in'), 650);
           } catch {
             failOpen();
           }
@@ -191,12 +256,31 @@
       if (scheduledCards.has(card)) return;
       scheduledCards.add(card);
       observer.unobserve(card);
-      const timer = setTimeout(() => {
-        timeouts.delete(timer);
-        beginCardReveal(card);
-      }, index * 80);
-      timeouts.add(timer);
+      later(() => beginCardReveal(card), index * 80);
     });
+  }
+
+  // FIX 1: safety net. Anything that has been on screen for 2 seconds and is
+  // still pending (for example a card taller than the viewport that never
+  // reaches 15% visible) is revealed anyway.
+  function armSafety(element) {
+    if (safetyArmed.has(element)) return;
+    safetyArmed.add(element);
+    later(() => {
+      if (failed || !element.isConnected) return;
+      if (!isInViewport(element)) {
+        safetyArmed.delete(element);
+        return;
+      }
+      if (registeredCards.has(element)) {
+        scheduleCardRow(element);
+      } else if (registered.has(element)) {
+        const card = element.closest(cardSelector);
+        if (card && registeredCards.has(card) && !startedCards.has(card)) scheduleCardRow(card);
+        headingReady.add(element);
+        maybeStartHeading(element);
+      }
+    }, 2000);
   }
 
   function measureCharacters(textNode, text) {
@@ -258,12 +342,23 @@
       const inserted = [];
       const record = { node, text, inserted };
       records.push(record);
+      // FIX 3: letters of one word live inside a single no-wrap wrapper, so a
+      // line can only break between words, exactly as in the original text.
+      let wordWrapper = null;
       measureCharacters(node, text).forEach(({ character, width }) => {
         if (/\s/u.test(character)) {
+          wordWrapper = null;
           const whitespace = document.createTextNode(character);
           node.parentNode.insertBefore(whitespace, node);
           inserted.push(whitespace);
           return;
+        }
+
+        if (!wordWrapper) {
+          wordWrapper = document.createElement('span');
+          wordWrapper.style.whiteSpace = 'nowrap';
+          node.parentNode.insertBefore(wordWrapper, node);
+          inserted.push(wordWrapper);
         }
 
         const span = document.createElement('span');
@@ -271,8 +366,7 @@
         span.style.display = 'inline-block';
         span.style.width = `${width}px`;
         span.textContent = character;
-        node.parentNode.insertBefore(span, node);
-        inserted.push(span);
+        wordWrapper.appendChild(span);
 
         if (/^[\p{L}\p{N}]$/u.test(character)) {
           const index = characters.length;
@@ -337,13 +431,26 @@
   function onIntersection(entries) {
     entries.forEach(entry => {
       if (!entry.isIntersecting) return;
-      if (registeredCards.has(entry.target) && entry.intersectionRatio >= 0.15) {
-        scheduleCardRow(entry.target);
-      } else if (registered.has(entry.target) && entry.intersectionRatio >= 0.3) {
-        headingReady.add(entry.target);
-        maybeStartHeading(entry.target);
+      const target = entry.target;
+      if (registeredCards.has(target)) {
+        const tallEnough = entry.intersectionRect.height >= window.innerHeight * 0.15;
+        if (entry.intersectionRatio >= 0.15 || tallEnough) scheduleCardRow(target);
+        else armSafety(target);
+      } else if (registered.has(target)) {
+        if (entry.intersectionRatio >= 0.3) {
+          headingReady.add(target);
+          maybeStartHeading(target);
+        } else {
+          armSafety(target);
+        }
       }
     });
+  }
+
+  function markReady() {
+    if (failed || ready) return;
+    ready = true;
+    headings.forEach(maybeStartHeading);
   }
 
   function initialize() {
@@ -352,7 +459,10 @@
       style.id = 'scramble-motion-styles';
       document.head.appendChild(style);
 
-      if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) return;
+      if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
+        releaseBoot();
+        return;
+      }
 
       observer = new IntersectionObserver(entries => {
         try {
@@ -360,8 +470,9 @@
         } catch {
           failOpen();
         }
-      }, { threshold: [0, 0.15, 0.3] });
+      }, { threshold: [0, 0.02, 0.05, 0.1, 0.15, 0.3] });
       scan(document, true);
+      releaseBoot();
       mutationObserver = new MutationObserver(records => {
         try {
           records.forEach(record => record.addedNodes.forEach(node => {
@@ -373,17 +484,20 @@
       });
       mutationObserver.observe(document.body, { childList: true, subtree: true });
 
+      // Fonts normally load fast; never wait on them for more than 1.5s.
+      later(markReady, 1500);
       Promise.resolve(document.fonts ? document.fonts.ready : undefined)
-        .then(() => {
-          if (failed) return;
-          ready = true;
-          headings.forEach(maybeStartHeading);
-        })
+        .then(markReady)
         .catch(failOpen);
     } catch {
       failOpen();
     }
   }
 
-  initialize();
+  bootHide();
+  if (document.readyState === 'loading') {
+    document.addEventListener('DOMContentLoaded', initialize, { once: true });
+  } else {
+    initialize();
+  }
 })();

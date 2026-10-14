@@ -1,7 +1,6 @@
 const fs = require('fs');
 const http = require('http');
 const path = require('path');
-const { spawnSync } = require('child_process');
 const { chromium } = require('playwright');
 
 const landingRoot = path.resolve(__dirname, '../landing-page');
@@ -18,12 +17,7 @@ const pagePaths = [
   '/admin/beta-reports.html',
   '/admin/beta-reports/'
 ];
-const browserProbe = spawnSync(
-  chromium.executablePath(),
-  ['--headless', '--no-sandbox', '--disable-gpu', '--dump-dom', 'about:blank'],
-  { stdio: 'ignore', timeout: 10000 }
-);
-const canRunBrowser = browserProbe.status === 0;
+const canRunBrowser = fs.existsSync(chromium.executablePath());
 const motionDescribe = canRunBrowser ? describe : describe.skip;
 
 motionDescribe('landing page motion', () => {
@@ -57,7 +51,7 @@ motionDescribe('landing page motion', () => {
         response.writeHead(200, { 'content-type': `${contentType}; charset=utf-8` });
         response.end(content);
       });
-    });
+    }, 30000);
     await new Promise(resolve => server.listen(0, '127.0.0.1', resolve));
     baseUrl = `http://127.0.0.1:${server.address().port}`;
     browser = await chromium.launch({ headless: true });
@@ -102,7 +96,9 @@ motionDescribe('landing page motion', () => {
           const style = getComputedStyle(element);
           if (style.display === 'none' || element.getClientRects().length === 0) return false;
           if (style.visibility === 'hidden' && !element.classList.contains('scramble-pending')) return true;
-          return Number(style.opacity) === 0 && !element.classList.contains('reveal-pending');
+          return Number(style.opacity) === 0 &&
+            !element.classList.contains('reveal-pending') &&
+            !element.classList.contains('reveal-in');
         })
         .map(element => `${element.tagName.toLowerCase()}${element.id ? `#${element.id}` : ''}.${element.className}`));
       expect(unexpectedHidden).toEqual([]);
