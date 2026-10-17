@@ -27,7 +27,7 @@ If you prefer to inspect the source code and compile the application manually to
 ### Installation
 1. Clone the repository:
    ```bash
-   git clone https://github.com
+   git clone https://github.com/SalpyDev/VantaLock/
    ```
 2. Navigate into the directory:
    ```bash
